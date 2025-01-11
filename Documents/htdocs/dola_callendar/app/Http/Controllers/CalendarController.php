@@ -17,13 +17,18 @@ class CalendarController extends Controller
     public function index()
     {
         $client = $this->calendarService->getClient();
-
-        if (!isset($_GET['code'])) {
-            $authUrl = $client->createAuthUrl();
-            return redirect($authUrl);
-        } else {
-            $events = $this->calendarService->getEvents();
-            return view('calendar.index', compact('events'));
+    
+        if (!$this->calendarService->hasToken()) {
+            if (!isset($_GET['code'])) {
+                $authUrl = $client->createAuthUrl();
+                return redirect($authUrl);
+            } else {
+                $this->calendarService->saveToken($_GET['code']);
+            }
         }
+    
+        $events = $this->calendarService->getEvents();
+    
+        return view('calendar.index', compact('events'));
     }
 }

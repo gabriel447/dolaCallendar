@@ -44,10 +44,8 @@
                         <td>{{ $event->getSummary() }}</td>
                         <td>
                             @php
-                                // Configura o locale para português
                                 \Carbon\Carbon::setLocale('pt_BR');
-                                // Formata a data e hora com o dia da semana dinâmico
-                                echo \Carbon\Carbon::parse($event->getStart()->getDateTime())->translatedFormat('d/m/Y H:i l');
+                                echo ucfirst(\Carbon\Carbon::parse($event->getStart()->getDateTime())->translatedFormat('l, d \d\e F \d\e Y \à\s H:i'));
                             @endphp
                         </td>
                         <td>{{ $event->getDescription() ?? 'Sem descrição' }}</td>
